@@ -1,83 +1,77 @@
-# AQA A-level Measurements & Errors Learning Lab
+# AQA A-level Measurements & Errors Learning Lab v6
 
 Interactive teaching, simulation, practical/data-analysis and revision app for **AQA A-level Physics 7408 Section 3.1 Measurements and their errors**.
 
-## Layout and workflow
+## v6 major upgrade
 
-The project mirrors the classroom workflow of the `alevel-electricity` app:
-- sticky dark top bar and progress panel
-- guided lesson sequence + lesson workspace
-- detailed textbook section
-- interactive simulation laboratory
-- formula/calculation coach
-- practical and data-analysis workspace
-- mastery quiz + extended-response automarking
-- AQA specification map
-- responsive mobile/tablet layout
-- safe local progress saving
-- clickable equation/method breakdowns
+The app now combines the original guided course with a much broader practical-skills platform.
 
-## AQA 3.1 coverage
+### 3D practical laboratory
+- real WebGL/Three.js rendering
+- rotate and zoom apparatus
+- procedural metal/plastic materials, shadows and studio lighting
+- interactive micrometer screw gauge
+- interactive vernier caliper
+- parallax simulator
+- instrument-comparison scene
+- zero-error and measurement controls
+- full-screen classroom mode
 
-### 3.1.1 Use of SI units and their prefixes
-- required base units and derived units
-- prefixes T, G, M, k, c, m, μ, n, p, f
-- standard form and prefix conversion
-- squared/cubed unit conversion traps
-- J ↔ eV and J ↔ kW h conversions
+### Expanded lesson teaching
+- deeper explanations added to every lesson
+- inline diagrams and visual summaries
+- stretch questions
+- examiner-language prompts
+- expanded textbook support
 
-### 3.1.2 Limitation of physical measurements
-- random and systematic errors
-- accuracy, precision, repeatability, reproducibility and resolution
-- absolute, fractional and percentage uncertainty
-- significant figures linked to uncertainty
-- uncertainty propagation for sums/differences, products/quotients and powers
-- error bars
-- maximum/minimum gradients
-- uncertainty in both gradient and intercept
+### Skills Studio
+- instrument-reading trainer
+- virtual practical investigation mode
+- experimental fault generator
+- advanced graph laboratory with draggable best-fit line
+- error bars and worst-acceptable-line comparison
+- Data Detective mode
+- uncertainty equation builder
+- live random/systematic error visualiser
+- generated Paper 3-style practical/data questions
+- Examiner Mode
+- practical-skills passport
+- adaptive weakness recommendations
 
-### 3.1.3 Estimation of physical quantities
-- orders of magnitude
-- approximate values
-- derived/Fermi-style estimates
-
-## v4 feature set
-
+### Existing systems retained
 - 8 sequenced lessons
-- retrieval starters, objectives and vocabulary
-- lesson exit-question auto-checking + model answers
-- detailed mini-textbook explanations
-- worked calculations and clickable relationship breakdowns
-- 6 interactive models
-- 16 formula/data tools, including eV/J, kW h/J, significant figures and intercept uncertainty
-- 5 practical/data benches: timing, micrometer, graph uncertainty, instrument choice and a student data workspace
-- 22 original AQA-style mastery questions
-- Significant Figures Trainer
-- Uncertainty Challenge mode
-- personal progress + misconception dashboard
-- CSV export from the student data workspace
-- AQA-style best-fit vs worst-acceptable-line gradient/intercept uncertainty
-- 4 extended-response questions with transparent mark-point matching
-- safe local progress tracking with fallback where browser storage is blocked
-- full AQA 3.1 coverage map
-- timed 20-mark Paper 3-style mini assessment
-- adaptive revision recommendations based on latest weak areas
-- practical method and uncertainty planner
-- exportable student progress CSV
-- v3 analytics/significant-figures/data-workspace layer now explicitly loaded
-- installable static-app manifest
-- Netlify-ready static configuration
+- full textbook
+- core simulation lab
+- 16 formula/data tools
+- practical/data benches
+- 22-question mastery bank
+- significant-figures trainer
+- uncertainty challenge mode
+- student data workspace
+- personal progress/misconception dashboard
+- timed 20-mark exam mode
+- practical method planner
+- progress CSV export
 
-## Deploy to Netlify
+### Teacher Mode
+- random classroom questions
+- answer reveal
+- classroom timer
+- launch random simulations
+- worksheet generator
+- print-friendly output
+- adaptive class-focus panel
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/markstevengray95-star/Alevelmesurments-and-erros)
+## Deployment
 
-The app is static: no build command is required and the publish directory is the repository root.
+The project is a static site and remains Netlify-ready. The publish directory is the repository root and no build command is required.
 
-## Run locally
+[Deploy to Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/markstevengray95-star/Alevelmesurments-and-erros)
+
+## Local run
 
 Open `index.html` directly or serve the folder with any static server.
 
-## Educational note
+## 3D dependency
 
-The simulations are teaching models. They support, rather than replace, real practical work and teacher judgement about realistic uncertainties.
+The v6 3D laboratory loads Three.js from jsDelivr. If that CDN is blocked, the rest of the app continues to work and the 3D view displays a clear fallback message.
