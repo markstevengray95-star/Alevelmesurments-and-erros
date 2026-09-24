@@ -13,18 +13,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify staged v7 chunks
+      - name: Diagnose split chunk03
         run: |
-          test "$(sha256sum .v7clean/chunk00 | cut -d' ' -f1)" = '7c69c4a91f41e3c7128d400f23cf80001c91c5f3724b7cc18c47e0025e874d0f'
-          test "$(sha256sum .v7clean/chunk01 | cut -d' ' -f1)" = '1e79a3403dd20c9ced34e462daf6777595a21e642d4a9f1b39bea617a0af9c12'
-          test "$(sha256sum .v7clean/chunk02 | cut -d' ' -f1)" = '622da3797ea5fb172582a23756f1bc3c32056a5a92554c74285e0eca1e11d28e'
+          echo 'actual split hashes:'
+          sha256sum .v7fix/chunk03a .v7fix/chunk03b .v7fix/chunk03c .v7fix/chunk03d
+          echo 'expected:'
+          echo '47ecb0158ffc902143846a923cd514f54a03180173271c5b164be69f2e69278b chunk03a'
+          echo 'cf2039103d724369fd6266e88c6f0fbe81e91090edc85f8c4fe1a0b4930eaca2 chunk03b'
+          echo '87d708d26cbb7aa506d4ef0b9d65189dabb3aabc6cf46450da19ebcbb5491718 chunk03c'
+          echo '8fb4e237d39370d980ce75000e868349ae3848bd948936ba49c6cfd40a393fc6 chunk03d'
+          cat .v7fix/chunk03a .v7fix/chunk03b .v7fix/chunk03c .v7fix/chunk03d > /tmp/chunk03
+          echo 'reconstructed chunk03:'
+          sha256sum /tmp/chunk03
           test "$(sha256sum .v7fix/chunk03a | cut -d' ' -f1)" = '47ecb0158ffc902143846a923cd514f54a03180173271c5b164be69f2e69278b'
           test "$(sha256sum .v7fix/chunk03b | cut -d' ' -f1)" = 'cf2039103d724369fd6266e88c6f0fbe81e91090edc85f8c4fe1a0b4930eaca2'
           test "$(sha256sum .v7fix/chunk03c | cut -d' ' -f1)" = '87d708d26cbb7aa506d4ef0b9d65189dabb3aabc6cf46450da19ebcbb5491718'
           test "$(sha256sum .v7fix/chunk03d | cut -d' ' -f1)" = '8fb4e237d39370d980ce75000e868349ae3848bd948936ba49c6cfd40a393fc6'
-          test "$(sha256sum .v7clean/chunk04 | cut -d' ' -f1)" = '90f5ece82aadd4eda10429582290bf70a648a79ac4e1b4025dd3afe11567d2a7'
-          cat .v7fix/chunk03a .v7fix/chunk03b .v7fix/chunk03c .v7fix/chunk03d > /tmp/chunk03
           test "$(sha256sum /tmp/chunk03 | cut -d' ' -f1)" = '689f415862ace81b8435b7425c3a8ec44777867988fe9af7a3426c47c37be1f3'
+      - name: Verify other staged chunks
+        run: |
+          test "$(sha256sum .v7clean/chunk00 | cut -d' ' -f1)" = '7c69c4a91f41e3c7128d400f23cf80001c91c5f3724b7cc18c47e0025e874d0f'
+          test "$(sha256sum .v7clean/chunk01 | cut -d' ' -f1)" = '1e79a3403dd20c9ced34e462daf6777595a21e642d4a9f1b39bea617a0af9c12'
+          test "$(sha256sum .v7clean/chunk02 | cut -d' ' -f1)" = '622da3797ea5fb172582a23756f1bc3c32056a5a92554c74285e0eca1e11d28e'
+          test "$(sha256sum .v7clean/chunk04 | cut -d' ' -f1)" = '90f5ece82aadd4eda10429582290bf70a648a79ac4e1b4025dd3afe11567d2a7'
       - name: Unpack verified v7 release
         run: |
           cat .v7clean/chunk00 .v7clean/chunk01 .v7clean/chunk02 /tmp/chunk03 .v7clean/chunk04 | base64 -d > /tmp/v7delta.tgz
