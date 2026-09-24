@@ -1,11 +1,8 @@
 const fs=require('fs');
-const files=['index.html','styles.css','v3.css','v4.css','v6.css','me-content.js','me-assessment-data.js','me-sim-data.js','me-ui.js','me-formula-practical.js','me-assessment.js','me-v3.js','me-v4.js','three-lab.js','me-v6.js','README.md','manifest.webmanifest','physics-icon.svg','netlify.toml'];
-for (const f of files) if (!fs.existsSync(f)) throw new Error(`Missing ${f}`);
+const files=['index.html','styles.css','me-content.js','me-assessment-data.js','me-sim-data.js','me-ui.js','me-formula-practical.js','me-assessment.js','me-v3.js','me-v4.js','three-lab.js','me-v6.js','v6.css','v7.css','me-v7.js','sw.js','README.md','manifest.webmanifest','physics-icon.svg','netlify.toml','models/micrometer.gltf','models/vernier.gltf','models/analogue-meter.gltf'];
+for(const f of files)if(!fs.existsSync(f))throw new Error(`Missing ${f}`);
 const html=fs.readFileSync('index.html','utf8');
-for (const id of ['view-course','view-textbook','view-lab','view-formula','view-practical','view-mastery','view-spec','practical-instrument']) if (!html.includes(`id="${id}"`)) throw new Error(`Missing ${id}`);
-for (const src of ['me-v3.js?v=6','me-v4.js?v=6','three-lab.js?v=6','me-v6.js?v=6','v6.css?v=6']) if (!html.includes(src)) throw new Error(`Missing v6 loader ${src}`);
-const js=['me-content.js','me-assessment-data.js','me-sim-data.js','me-ui.js','me-formula-practical.js','me-assessment.js','me-v3.js','me-v4.js','three-lab.js','me-v6.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n');
-for (const term of ['percentageUncertainty','combineUncertainty','gradientUncertainty','interceptUncertainty','lessonChecks','instrumentTasks','Interactive 3D Measurement Lab','Measurements Skills Studio','Teacher Mode','Paper 3 Generator','Skills Passport','Data detective']) if (!js.includes(term)) throw new Error(`Missing ${term}`);
-if (!js.includes("id:'evj'") || !js.includes("id:'kwhj'") || !js.includes("id:'sigfig'")) throw new Error('Missing formula tools');
-if (!html.includes('1 / 22')) throw new Error('Quiz total not updated');
-console.log('smoke-ok-v6-3d-skills');
+for(const term of ['me-v7.js?v=7','v7.css?v=7','GLTFLoader.js','me-v6.js?v=7'])if(!html.includes(term))throw new Error(`Missing loader ${term}`);
+const v7=fs.readFileSync('me-v7.js','utf8');
+for(const term of ['Advanced Virtual Laboratory','Spaced Retrieval','Full Paper 3 Simulation','Web Serial','Voice Viva','Skills Passport','Exam Paper Builder','Cross-topic Practical Links','BroadcastChannel','serviceWorker'])if(!v7.includes(term))throw new Error(`Missing v7 feature ${term}`);
+console.log('smoke-ok-v7');

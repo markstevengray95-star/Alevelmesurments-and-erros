@@ -1,77 +1,51 @@
-# AQA A-level Measurements & Errors Learning Lab v6
+# AQA A-level Measurements & Errors Learning Lab v7
 
-Interactive teaching, simulation, practical/data-analysis and revision app for **AQA A-level Physics 7408 Section 3.1 Measurements and their errors**.
+Interactive AQA A-level Physics 7408 Measurements & Errors platform.
 
-## v6 major upgrade
+## v7 platform
 
-The app now combines the original guided course with a much broader practical-skills platform.
+v7 keeps the existing guided lessons, textbook, simulations, formula coach, practical benches, mastery system, timed assessment, dashboard and 3D lab, then adds a complete practical-learning platform.
 
-### 3D practical laboratory
-- real WebGL/Three.js rendering
-- rotate and zoom apparatus
-- procedural metal/plastic materials, shadows and studio lighting
-- interactive micrometer screw gauge
-- interactive vernier caliper
-- parallax simulator
-- instrument-comparison scene
-- zero-error and measurement controls
-- full-screen classroom mode
+### Advanced Virtual Laboratory
+- draggable apparatus lab bench and experiment-design missions
+- local glTF apparatus library for micrometer, vernier and analogue meter
+- camera/AR-style alignment mode with browser camera permission
+- CSV/real-data import with regression and anomaly flagging
+- Web Serial sensor hook for compatible microcontrollers/sensors
+- blind-practical relationship discovery
+- graph linearisation trainer
+- live uncertainty optimiser
+- comparison of experimental methods
 
-### Expanded lesson teaching
-- deeper explanations added to every lesson
-- inline diagrams and visual summaries
-- stretch questions
-- examiner-language prompts
-- expanded textbook support
+### Personal Learning Hub
+- local student profile
+- spaced retrieval scheduling
+- confidence tracking
+- skills passport and mastery map
+- digital practical notebook
+- practical portfolio export
+- adaptive difficulty/challenge mode
+- accessibility controls: larger text, high contrast, dyslexia-friendly spacing, reduced motion
+- EAL physics glossary support
+- cross-topic links to Electricity, Mechanics, Materials, Waves, Nuclear and Fields
+- browser voice-viva mode where speech recognition is supported
 
-### Skills Studio
-- instrument-reading trainer
-- virtual practical investigation mode
-- experimental fault generator
-- advanced graph laboratory with draggable best-fit line
-- error bars and worst-acceptable-line comparison
-- Data Detective mode
-- uncertainty equation builder
-- live random/systematic error visualiser
-- generated Paper 3-style practical/data questions
-- Examiner Mode
-- practical-skills passport
-- adaptive weakness recommendations
+### Assessment Laboratory
+- exam-paper builder
+- extended Paper 3-style practice
+- examiner commentary
+- targeted question generation from weakest tracked skills
+- measurement escape room
+- interactive practical decision scenarios
 
-### Existing systems retained
-- 8 sequenced lessons
-- full textbook
-- core simulation lab
-- 16 formula/data tools
-- practical/data benches
-- 22-question mastery bank
-- significant-figures trainer
-- uncertainty challenge mode
-- student data workspace
-- personal progress/misconception dashboard
-- timed 20-mark exam mode
-- practical method planner
-- progress CSV export
+### Teacher and classroom tools
+- custom teacher questions/activities stored locally
+- local classroom skill heatmap
+- BroadcastChannel classroom challenge support between open browser tabs
+- adaptive class-focus suggestions
 
-### Teacher Mode
-- random classroom questions
-- answer reveal
-- classroom timer
-- launch random simulations
-- worksheet generator
-- print-friendly output
-- adaptive class-focus panel
+### Offline support
+- service-worker caching for the static learning app
 
-## Deployment
-
-The project is a static site and remains Netlify-ready. The publish directory is the repository root and no build command is required.
-
-[Deploy to Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/markstevengray95-star/Alevelmesurments-and-erros)
-
-## Local run
-
-Open `index.html` directly or serve the folder with any static server.
-
-## 3D dependency
-
-The v6 3D laboratory loads Three.js from jsDelivr. If that CDN is blocked, the rest of the app continues to work and the 3D view displays a clear fallback message.
+## Important browser notes
+Camera, speech recognition, Web Serial, service workers and WebGL depend on browser/device support and user permission. The app provides fallbacks rather than bypassing those permissions.
