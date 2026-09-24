@@ -82,8 +82,8 @@
       retrieval:['What does an error bar represent?','Why is a line of best fit not expected to pass through every point?','What does the gradient represent in y = mx + c?'],
       objectives:['Represent point uncertainty with error bars.','Estimate maximum and minimum acceptable gradients.','State an uncertainty in gradient and intercept.'],
       vocab:['error bar','best fit','maximum gradient','minimum gradient','intercept','gradient uncertainty'],
-      teach:`Error bars show the uncertainty associated with plotted coordinates. For a straight-line relationship, draw a sensible best-fit line, then the steepest and shallowest lines that are still consistent with the uncertainty bars. A useful estimate is m = m_best ± (m_max − m_min)/2. The same idea can be applied to the intercept.`,
-      equation:'gradientUncertainty', worked:'If m_best = 2.40, m_max = 2.55 and m_min = 2.25, Δm ≈ (2.55−2.25)/2 = 0.15, so m = 2.40 ± 0.15.',
+      teach:`Error bars show the uncertainty associated with plotted coordinates. For a straight-line relationship, draw a sensible best-fit line, then identify the steepest or shallowest acceptable line that is still consistent with the uncertainty bars. Following AQA practical guidance, compare the best gradient with the single worst acceptable gradient: percentage uncertainty = |m_best − m_worst| / |m_best| × 100%. Apply the same best-versus-worst method to the intercept.`,
+      equation:'gradientUncertainty', worked:'If m_best = 2.40 and the worst acceptable gradient is 2.55, Δm = |2.40−2.55| = 0.15 and percentage uncertainty = 0.15/2.40 × 100 = 6.25%, so m = 2.40 ± 0.15.',
       mission:'Use the Error Bars & Gradients model. Increase error bars and see how the allowable gradient range changes.',
       exam:'The steepest and shallowest acceptable lines should still be consistent with the error bars; do not simply connect extreme raw data points.',
       exit:'Why does larger point uncertainty usually increase the uncertainty in a graph gradient?'

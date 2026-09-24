@@ -49,3 +49,10 @@ v7 keeps the existing guided lessons, textbook, simulations, formula coach, prac
 
 ## Important browser notes
 Camera, speech recognition, Web Serial, service workers and WebGL depend on browser/device support and user permission. The app provides fallbacks rather than bypassing those permissions.
+
+
+## v8
+- Expanded all 8 guided lessons into deeper mini-textbook lessons with worked examples, guided practice, misconceptions, exam technique and practical context.
+- Converted the six core Measurements & Errors simulations to interactive Three.js 3D scenes with orbit, zoom, auto-rotation and 3D snapshots.
+- Corrected graph-gradient uncertainty to AQA best-line versus worst-acceptable-line guidance.
+- Added v8 resources to the offline service-worker cache.

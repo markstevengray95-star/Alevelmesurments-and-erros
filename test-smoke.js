@@ -1,8 +1,11 @@
 const fs=require('fs');
-const files=['index.html','styles.css','me-content.js','me-assessment-data.js','me-sim-data.js','me-ui.js','me-formula-practical.js','me-assessment.js','me-v3.js','me-v4.js','three-lab.js','me-v6.js','v6.css','v7.css','me-v7.js','sw.js','README.md','manifest.webmanifest','physics-icon.svg','netlify.toml','models/micrometer.gltf','models/vernier.gltf','models/analogue-meter.gltf'];
+const files=['index.html','styles.css','me-content.js','me-assessment-data.js','me-sim-data.js','me-ui.js','me-formula-practical.js','me-assessment.js','me-v3.js','me-v4.js','three-lab.js','me-v6.js','v6.css','v7.css','me-v7.js','v8.css','v8-lesson-data.js','me-v8-lessons.js','me-v8-sims.js','sw.js','README.md','manifest.webmanifest','physics-icon.svg','netlify.toml','models/micrometer.gltf','models/vernier.gltf','models/analogue-meter.gltf'];
 for(const f of files)if(!fs.existsSync(f))throw new Error(`Missing ${f}`);
 const html=fs.readFileSync('index.html','utf8');
-for(const term of ['me-v7.js?v=7','v7.css?v=7','GLTFLoader.js','me-v6.js?v=7'])if(!html.includes(term))throw new Error(`Missing loader ${term}`);
-const v7=fs.readFileSync('me-v7.js','utf8');
-for(const term of ['Advanced Virtual Laboratory','Spaced Retrieval','Full Paper 3 Simulation','Web Serial','Voice Viva','Skills Passport','Exam Paper Builder','Cross-topic Practical Links','BroadcastChannel','serviceWorker'])if(!v7.includes(term))throw new Error(`Missing v7 feature ${term}`);
-console.log('smoke-ok-v7');
+for(const term of ['v8.css?v=8','v8-lesson-data.js?v=8','me-v8-lessons.js?v=8','me-v8-sims.js?v=8','GLTFLoader.js'])if(!html.includes(term))throw new Error(`Missing loader ${term}`);
+const lessons=fs.readFileSync('me-v8-lessons.js','utf8'),data=fs.readFileSync('v8-lesson-data.js','utf8'),sims=fs.readFileSync('me-v8-sims.js','utf8');
+for(const term of ['Core teaching','Worked examples','Guided practice','Common misconceptions','3D investigation'])if(!lessons.includes(term))throw new Error(`Missing lesson feature ${term}`);
+const lowerData=data.toLowerCase();
+for(const term of ['worst acceptable','linearisation','percentage uncertainty'])if(!lowerData.includes(term))throw new Error(`Missing detailed content ${term}`);
+for(const term of ['drawResolution3D','drawErrors3D','drawUncertainty3D','drawPropagation3D','drawGraph3D','drawEstimate3D','Full 3D simulation'])if(!sims.includes(term))throw new Error(`Missing 3D simulation ${term}`);
+console.log('smoke-ok-v8');
