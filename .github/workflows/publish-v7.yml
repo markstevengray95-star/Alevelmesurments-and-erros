@@ -15,7 +15,18 @@ jobs:
       - uses: actions/checkout@v4
       - name: Unpack v7 release
         run: |
-          cat .v7payload/chunk00a .v7payload/chunk00b .v7payload/chunk01 .v7payload/chunk02 .v7payload/chunk03 .v7payload/chunk04 .v7payload/chunk05 | tr -cd 'A-Za-z0-9+/=' | base64 -d > /tmp/v7delta.tgz
+          python - <<'PY'
+          import base64,re
+          names=['chunk00a','chunk00b','chunk01','chunk02','chunk03','chunk04','chunk05']
+          raw=''.join(open('.v7payload/'+n,encoding='utf-8').read() for n in names)
+          data=''.join(re.findall(r'[A-Za-z0-9+/=]',raw)).replace('=','')
+          data += '='*((4-len(data)%4)%4)
+          blob=base64.b64decode(data)
+          print('decoded bytes',len(blob),'header',blob[:4].hex())
+          if not blob.startswith(b'\x1f\x8b'):
+              raise SystemExit('payload is not gzip')
+          open('/tmp/v7delta.tgz','wb').write(blob)
+          PY
           tar -xzf /tmp/v7delta.tgz -C .
       - name: Generate embedded GLTF apparatus library
         run: |
