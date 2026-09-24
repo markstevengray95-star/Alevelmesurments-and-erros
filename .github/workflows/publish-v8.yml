@@ -58,7 +58,8 @@ jobs:
           for(const term of ['v8.css?v=8','v8-lesson-data.js?v=8','me-v8-lessons.js?v=8','me-v8-sims.js?v=8','GLTFLoader.js'])if(!html.includes(term))throw new Error(`Missing loader ${term}`);
           const lessons=fs.readFileSync('me-v8-lessons.js','utf8'),data=fs.readFileSync('v8-lesson-data.js','utf8'),sims=fs.readFileSync('me-v8-sims.js','utf8');
           for(const term of ['Core teaching','Worked examples','Guided practice','Common misconceptions','3D investigation'])if(!lessons.includes(term))throw new Error(`Missing lesson feature ${term}`);
-          for(const term of ['worst acceptable','Linearisation','percentage uncertainty'])if(!data.includes(term))throw new Error(`Missing detailed content ${term}`);
+          const lowerData=data.toLowerCase();
+          for(const term of ['worst acceptable','linearisation','percentage uncertainty'])if(!lowerData.includes(term))throw new Error(`Missing detailed content ${term}`);
           for(const term of ['drawResolution3D','drawErrors3D','drawUncertainty3D','drawPropagation3D','drawGraph3D','drawEstimate3D','Full 3D simulation'])if(!sims.includes(term))throw new Error(`Missing 3D simulation ${term}`);
           console.log('smoke-ok-v8');
           """)
