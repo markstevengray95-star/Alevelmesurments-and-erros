@@ -1,0 +1,86 @@
+name: Publish Measurements v8
+on:
+  push:
+    paths:
+      - 'v8-publish-trigger.txt'
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Integrate v8
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          p=Path('index.html'); s=p.read_text()
+          if 'v8.css?v=8' not in s:
+              s=s.replace('<link rel="stylesheet" href="v7.css?v=7">','<link rel="stylesheet" href="v7.css?v=7">\n  <link rel="stylesheet" href="v8.css?v=8">')
+          if 'v8-lesson-data.js?v=8' not in s:
+              s=s.replace('<script src="me-v7.js?v=7"></script>','<script src="me-v7.js?v=7"></script>\n<script src="v8-lesson-data.js?v=8"></script>\n<script src="me-v8-lessons.js?v=8"></script>\n<script src="me-v8-sims.js?v=8"></script>')
+          s=s.replace('Measurements & Errors Learning Lab v7 · full virtual practical platform.','Measurements & Errors Learning Lab v8 · expanded lessons · full 3D simulation platform.')
+          s=s.replace('<span class="pill">6 interactive models</span>','<span class="pill">6 full 3D models</span>')
+          s=s.replace('<h2>Interactive measurement simulation lab</h2>','<h2>Full 3D measurement simulation lab</h2>')
+          s=s.replace('Change instrument resolution, random scatter, zero error, uncertainty size and graph data. Capture readings and explain what changes.','Orbit and zoom every model in 3D. Change instrument resolution, random scatter, systematic offset, uncertainty, graph data and estimation assumptions, then explain the physics behind what changes.')
+          s=s.replace('<span class="pill" id="simState">Live model</span>','<span class="pill" id="simState">Interactive 3D</span>')
+          s=s.replace('<div class="drag-hint">Use the controls · works with mouse or touch</div>','<div class="drag-hint">Drag to orbit · wheel/pinch to zoom · use the physics controls</div>')
+          p.write_text(s)
+
+          p=Path('me-content.js'); s=p.read_text()
+          old='For a straight-line relationship, draw a sensible best-fit line, then the steepest and shallowest lines that are still consistent with the uncertainty bars. A useful estimate is m = m_best ± (m_max − m_min)/2. The same idea can be applied to the intercept.'
+          new='For a straight-line relationship, draw a sensible best-fit line, then identify the steepest or shallowest acceptable line that is still consistent with the uncertainty bars. Following AQA practical guidance, compare the best gradient with the single worst acceptable gradient: percentage uncertainty = |m_best − m_worst| / |m_best| × 100%. Apply the same best-versus-worst method to the intercept.'
+          s=s.replace(old,new)
+          s=s.replace('If m_best = 2.40, m_max = 2.55 and m_min = 2.25, Δm ≈ (2.55−2.25)/2 = 0.15, so m = 2.40 ± 0.15.','If m_best = 2.40 and the worst acceptable gradient is 2.55, Δm = |2.40−2.55| = 0.15 and percentage uncertainty = 0.15/2.40 × 100 = 6.25%, so m = 2.40 ± 0.15.')
+          p.write_text(s)
+
+          p=Path('me-formula-practical.js'); s=p.read_text()
+          old="const dm=Math.abs(max-min)/2,dc=Math.abs(maxB-minB)/2;$('#graphBenchSummary').innerHTML=`Best gradient ≈ <strong>${fmt(best.m,3)}</strong> · Δm ≈ <strong>${fmt(dm,3)}</strong> (${fmt(percent(dm,best.m),2)}%) · best intercept ≈ <strong>${fmt(best.b,3)}</strong> · Δc ≈ <strong>${fmt(dc,3)}</strong>`;"
+          new="const useMax=Math.abs(max-best.m)>=Math.abs(min-best.m),worst=useMax?max:min,worstB=useMax?maxB:minB,dm=Math.abs(best.m-worst),dc=Math.abs(best.b-worstB);$('#graphBenchSummary').innerHTML=`Best gradient ≈ <strong>${fmt(best.m,3)}</strong> · worst acceptable ≈ <strong>${fmt(worst,3)}</strong> · Δm ≈ <strong>${fmt(dm,3)}</strong> (${fmt(percent(dm,best.m),2)}%) · best intercept ≈ <strong>${fmt(best.b,3)}</strong> · Δc ≈ <strong>${fmt(dc,3)}</strong>`;"
+          s=s.replace(old,new)
+          p.write_text(s)
+
+          p=Path('sw.js'); s=p.read_text()
+          s=s.replace("measurements-v7-cache-1","measurements-v8-cache-1")
+          s=s.replace("'./v7.css'","'./v7.css','./v8.css'")
+          s=s.replace("'./me-v7.js'","'./me-v7.js','./v8-lesson-data.js','./me-v8-lessons.js','./me-v8-sims.js'")
+          p.write_text(s)
+
+          pkg=json.loads(Path('package.json').read_text()); pkg['version']='8.0.0'; Path('package.json').write_text(json.dumps(pkg,separators=(',',':'))+'\n')
+
+          Path('test-smoke.js').write_text("""const fs=require('fs');
+          const files=['index.html','styles.css','me-content.js','me-assessment-data.js','me-sim-data.js','me-ui.js','me-formula-practical.js','me-assessment.js','me-v3.js','me-v4.js','three-lab.js','me-v6.js','v6.css','v7.css','me-v7.js','v8.css','v8-lesson-data.js','me-v8-lessons.js','me-v8-sims.js','sw.js','README.md','manifest.webmanifest','physics-icon.svg','netlify.toml','models/micrometer.gltf','models/vernier.gltf','models/analogue-meter.gltf'];
+          for(const f of files)if(!fs.existsSync(f))throw new Error(`Missing ${f}`);
+          const html=fs.readFileSync('index.html','utf8');
+          for(const term of ['v8.css?v=8','v8-lesson-data.js?v=8','me-v8-lessons.js?v=8','me-v8-sims.js?v=8','GLTFLoader.js'])if(!html.includes(term))throw new Error(`Missing loader ${term}`);
+          const lessons=fs.readFileSync('me-v8-lessons.js','utf8'),data=fs.readFileSync('v8-lesson-data.js','utf8'),sims=fs.readFileSync('me-v8-sims.js','utf8');
+          for(const term of ['Core teaching','Worked examples','Guided practice','Common misconceptions','3D investigation'])if(!lessons.includes(term))throw new Error(`Missing lesson feature ${term}`);
+          for(const term of ['worst acceptable','Linearisation','percentage uncertainty'])if(!data.includes(term))throw new Error(`Missing detailed content ${term}`);
+          for(const term of ['drawResolution3D','drawErrors3D','drawUncertainty3D','drawPropagation3D','drawGraph3D','drawEstimate3D','Full 3D simulation'])if(!sims.includes(term))throw new Error(`Missing 3D simulation ${term}`);
+          console.log('smoke-ok-v8');
+          """)
+
+          p=Path('README.md'); s=p.read_text()
+          if '## v8' not in s:
+              s += '\n\n## v8\n- Expanded all 8 guided lessons into deeper mini-textbook lessons with worked examples, guided practice, misconceptions, exam technique and practical context.\n- Converted the six core Measurements & Errors simulations to interactive Three.js 3D scenes with orbit, zoom, auto-rotation and 3D snapshots.\n- Corrected graph-gradient uncertainty to AQA best-line versus worst-acceptable-line guidance.\n- Added v8 resources to the offline service-worker cache.\n'
+          p.write_text(s)
+          PY
+      - name: Verify v8
+        run: |
+          node --check v8-lesson-data.js
+          node --check me-v8-lessons.js
+          node --check me-v8-sims.js
+          node --check me-content.js
+          node --check me-formula-practical.js
+          npm test
+      - name: Publish v8
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html me-content.js me-formula-practical.js sw.js package.json test-smoke.js README.md
+          git diff --cached --quiet && exit 0
+          git commit -m "Publish Measurements & Errors v8: expanded lessons and full 3D simulations"
+          git push
